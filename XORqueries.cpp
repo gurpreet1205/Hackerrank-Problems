@@ -1,0 +1,61 @@
+#include<bits/stdc++.h>
+using namespace std;
+int main()
+{
+	long long int q,x,l,r,i,j,ax[31],al[31],ar[31],y,flag,xx;
+	cin>>q;
+	while(q--)
+	{
+		y=0,flag=0;
+		cin>>x>>l>>r;
+		xx=x;
+		for(i=0;i<31;i++)
+		{
+			ax[i]=x%2;
+			x=x/2;
+		}
+		for(i=0;i<31;i++)
+		{
+			al[i]=l%2;
+			l=l/2;
+		}
+		for(i=0;i<31;i++)
+		{
+			ar[i]=r%2;
+			r=r/2;
+		}
+		for(i=30;i>=0;i--)
+		{
+			if(ar[i]==ax[i]&&ar[i]==1)
+			{
+				if(flag==1||(flag==0&&al[i]==0))
+				{
+					ar[i]=0;
+					break;
+				}
+			}
+			if(al[i]<ar[i])
+				flag=1;
+		}
+		for(j=i-1;j>=0;j--)
+		{
+			if(ar[j]==ax[j]||(flag==0&&al[j]>ar[j]))
+			{
+				if(flag==1||(flag==0&&(al[j]!=ar[j]||al[j]==0)))
+				{
+					if(al[j]==0&&ar[j]==0)
+						flag=1;
+					ar[j]=(!ar[j]);
+				}
+			}
+			else if(al[j]<ar[j])
+				flag=1;
+		}
+		for(i=0;i<31;i++)
+		{
+			y=y+ar[i]*pow(2,i);
+		}
+		cout<<(xx^y)<<"\n";
+	}
+	return 0;
+}

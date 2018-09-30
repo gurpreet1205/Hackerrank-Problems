@@ -1,0 +1,95 @@
+#include<bits/stdc++.h>
+using namespace std;
+void mergesort(long long int *a,long long int n,long long int *c)
+{
+    long long int b[n],d[n];
+    long long int x;
+    if((n==0)||(n==1))
+        return;
+    x=n/2;
+    mergesort(a,x,c);
+    mergesort(a+x,n-x,c+x);
+   long long int i=0,j=x,k=0;
+    while((i<x)&&(j<n))
+    {
+        if(a[i]>a[j])
+        {
+            b[k]=a[j];
+            d[k]=c[j];
+            j++;
+        }
+        else
+        {
+            b[k]=a[i];
+            d[k]=c[i];
+            i++;
+        }
+        k++;
+    }
+    if(i==x)
+    {
+        while(j<n)
+        {
+            b[k]=a[j];
+            d[k]=c[j];
+            j++;
+            k++;
+        }
+    }
+    else
+    {
+        while(i<x)
+        {
+            b[k]=a[i];
+            d[k]=c[i];
+            i++;
+            k++;
+        }
+    }
+    for(i=0;i<k;i++)
+    {
+        a[i]=b[i];
+        c[i]=d[i];
+    }
+}
+int main()
+{
+	long long int t,x[5],y[5],flag,temp,i,z;
+	cin>>t;
+	while(t--)
+	{
+		z=0;
+		flag=0;
+		for(i=0;i<5;i++)
+			cin>>x[i]>>y[i];
+		while(z<2)
+		{
+		mergesort(x,5,y);
+		if(x[1]==x[2]&&x[2]==x[3]&&x[0]==x[1]-1&&x[4]==x[1]+1)
+		{
+			if(y[0]==y[4])
+			{
+				if(max(y[1],max(y[2],y[3]))==y[0]||min(y[1],min(y[2],y[3]))==y[0])
+				{
+					if(max(y[1],max(y[2],y[3]))==min(y[1],min(y[2],y[3]))+2)
+						flag=1;
+				}
+			}
+		}
+		if(flag==1)
+			break;
+		for(i=0;i<5;i++)
+		{
+			temp=x[i];
+			x[i]=y[i];
+			y[i]=temp;
+		}
+		z++;
+		}
+		if(flag==1)
+			cout<<"Yes\n";
+		else
+			cout<<"No\n";
+	}
+	return 0;
+}
